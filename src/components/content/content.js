@@ -26,9 +26,11 @@ class Content extends Component {
   render() {
     return (
       <div className="add-todo">
-        <input type="text" value={this.state.todoName} onChange={this.setChanges}/>
-        <button type="submit" onClick={this.handleSubmit}>Add Todo</button>
-  	  	<TodoList list={this.state.todoList}/>
+	      <div className="form-group">
+	        <input className="form-control input" type="text" value={this.state.todoName} onChange={this.setChanges}/>
+	        <button type="submit" className="btn btn-primary" onClick={this.handleSubmit}>Add Todo</button>
+	  	  </div>
+	  	  <TodoList list={this.state.todoList}/>
       </div>
     );
   }
