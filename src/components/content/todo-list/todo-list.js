@@ -7,31 +7,29 @@ class TodoList extends Component {
     this.state = {
       data: this.props.list
     }
+    console.log(this.props.list)
     this.deleteTodo = this.deleteTodo.bind(this);
   }
   deleteTodo(index){
-    console.log(index)
-    console.log(this.state.data);
     this.state.data.splice(index,1)
     this.props.deleteTodo(this.state.data);
-    console.log(this.state.data);
   }
   render() {
     return (
       <div className="todos-list col-md-8">
-        <table className="table">
+        <table className="table table-striped">
           <thead>
             <tr>
               <th>S No</th>
               <th>Todo</th>
-              <th>Edit/Delete</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {this.state.data.map((item, index) => {
-              return <tr>
+              return <tr key={index}>
                 <td>{index + 1}</td>
-                <td>{item}</td>
+                <td>{item.name}</td>
                 <td className="Edit">
                   <a>Edit</a>/
                   <a onClick={()=>this.deleteTodo(index)}>Delete</a>
