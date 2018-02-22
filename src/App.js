@@ -8,7 +8,7 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      todoList:["need to work on react js"]
+      todoList:[{name:"need to work on react js"}]
     }
     this.todosCount = this.todosCount.bind(this);
   }
