@@ -1,0 +1,18 @@
+.header{
+	position:fixed;
+	top: 0px;
+	height: 60px;
+	width: 100%;
+	background: black;
+}
+.content {
+	position: relative;
+    top: 50px;
+}
+.footer{
+	position:fixed;
+	bottom: 0px;
+	height: 60px;
+	width: 100%;
+	background: black;
+}
