@@ -8,42 +8,85 @@ class Content extends Component {
   	this.state = {
   		todoName: "",
       todoList: this.props.contentProps,
-      search:""
+      owner:"",
+      searchedList:this.props.contentProps
   	}
   	this.setChanges = this.setChanges.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this); 
     this.deleteTodo = this.deleteTodo.bind(this); 
-  	this.search = this.search.bind(this);
+    this.search = this.search.bind(this);
+  	// this.duplicateCheck = this.duplicateCheck.bind(this);
   }
   setChanges(event){
   	this.setState({
-        todoName: event.target.value
+        [event.target.name]: event.target.value
     });
   };
 
-  handleSubmit(){
-    if(!this.state.todoList.includes(this.state.todoName) && this.state.todoName){
-    this.state.todoList.push({name:this.state.todoName});
-    this.setState({todoName : ""});
+  duplicateCheck= ()=>{
+    for(var i = 0 ;i < this.state.todoList.length;i++){
+      var check = this.state.todoList[i].name === this.state.todoName ? false: true;
+    }
+    return check;
+  }
+
+  // checkOwner= ()=>{
+  //   var obj; 
+  //   var count=0;
+  //   this.state.todoList.forEach((ele,ind)=>{
+  //     if(ele.owner === this.state.owner){
+  //       obj = {check:true,index:ind};
+  //       count = 1;
+  //       return ;
+  //     }
+  //   });
+  //   if(count){
+  //     return obj;
+  //   }
+  //   else {
+  //     return false;
+  //   }
+  // }
+ 
+  handleSubmit(event){
+    event.preventDefault();
+    if(this.duplicateCheck() && this.state.todoName && this.state.owner){
+    // var ownerCheck = this.checkOwner();
+    // if(ownerCheck.check){
+    //   this.state.todoList[ownerCheck.index].name.push(this.state.todoName);
+    // }else{
+    //   var arr =[];
+    //     arr.push(this.state.todoName)
+    //     var obj = {
+    //       name:arr,
+    //       owner:this.state.owner
+    //     }
+    //     this.state.todoList.push(obj);
+    // }
+    this.state.todoList.push({name:this.state.todoName,owner:this.state.owner});
+    this.setState({todoName : "",owner:""});
     this.props.todosCount(this.state.todoList);
     }
   }
 
-  deleteTodo(index){
-    this.state.todoList.splice(index,1);
+  deleteTodo(data,index,ind){
+    this.state.todoList[index].name.splice(ind,1);
   	this.props.todosCount(this.state.todoList);
   }
 
   search(event){
-    this.setState({
-        search: event.target.value
-    });
-    var query = this.state.search;
     var queryResult=[];
     this.state.todoList.forEach(function(item){
-      if(item.name.toLowerCase().indexOf(query)!==-1)
-      queryResult.push(item);
+      item.name.forEach(ele=>{
+        if(ele.toLowerCase().indexOf(event.target.value)!==-1){
+           queryResult.push(item);
+        }
+      })
+      
     });
+    this.setState({
+      searchedList: queryResult
+    })
   }
 
   render() {
@@ -52,7 +95,8 @@ class Content extends Component {
         <div className="add-search">
           <h4>Add new todo below:</h4>
           <div className="row form-group">
-            <input className="form-control input" type="text" value={this.state.todoName} onChange={this.setChanges}/>
+            <input className="form-control input" name="todoName" type="text" placeholder="Task..." value={this.state.todoName} onChange={this.setChanges}/>
+            <input className="form-control input" name="owner" type="text" placeholder="Owner..." value={this.state.owner} onChange={this.setChanges}/>
             <button type="submit" className="btn btn-primary" onClick={this.handleSubmit}>Add Todo</button>
           </div>
           
@@ -63,30 +107,7 @@ class Content extends Component {
           </div>
           </div>
         </div>
-        <TodoList list={this.state.todoList} deleteTodo={this.deleteTodo}/>
-        
-        {/* <table className="table">
-          <thead>
-            <tr>
-              <th>S No</th>
-              <th>Todo</th>
-              <th>Edit/Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.todoList.map((item, index) => {
-              return <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{item.name}</td>
-                <td className="Edit">
-                  <a>Edit</a>/
-                  <a onClick={()=>this.deleteTodo(index)}>Delete</a>
-                </td>
-              </tr>
-            })
-            }
-          </tbody>
-        </table> */}
+        <TodoList list={this.state.searchedList} deleteTodo={this.deleteTodo}/>
       </div>
     );
   }

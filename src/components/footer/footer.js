@@ -7,7 +7,7 @@ class Footer extends Component {
       <div className="footer">
          <h4 className="footer-content">
          Total todos pending: 
-         <span> {this.props.countProps.length}</span>
+         <span> {this.props.countProps}</span>
          </h4>
       </div>
     );

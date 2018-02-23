@@ -8,14 +8,14 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      todoList:[{name:"need to work on react js"}]
+      todoList:[{name:"need to work on react js",owner:"jogi"},{name:"need to ",owner:"fayaz"}]
     }
     this.todosCount = this.todosCount.bind(this);
   }
   todosCount(data){
     this.setState({
       todoList: data
-    })
+    });
   }
   render() {
     return (
@@ -27,7 +27,7 @@ class App extends Component {
           <Content todosCount={this.todosCount} contentProps={this.state.todoList}/>
         </div>
         <div className="footer">>
-          <Footer countProps={this.state.todoList}/>
+          <Footer countProps={this.state.todoList.length}/>
         </div> 
       </div>
     );

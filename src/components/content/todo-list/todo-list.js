@@ -7,11 +7,25 @@ class TodoList extends Component {
     this.state = {
       data: this.props.list
     }
-    console.log(this.props.list)
+    
     this.deleteTodo = this.deleteTodo.bind(this);
   }
+  componentWillReceiveProps(){
+    console.log(this.props.list);
+    var owners = this.props.list.map(a => a.owner);
+    var unique = Array.from(new Set(owners));
+    console.log(unique)
+    var arr = [];
+    unique.forEach(ele=>{
+      this.props.list.forEach(element => {
+        if(ele === element.owner){
+          
+        }
+      });
+    });
+  }
+
   deleteTodo(index){
-    this.state.data.splice(index,1)
     this.props.deleteTodo(this.state.data);
   }
   render() {
@@ -19,25 +33,25 @@ class TodoList extends Component {
       <div className="todos-list col-md-8">
         <table className="table table-striped">
           <thead>
+            <tr></tr>
             <tr>
               <th>S No</th>
               <th>Todo</th>
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
-            {this.state.data.map((item, index) => {
-              return <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{item.name}</td>
-                <td className="Edit">
-                  <a>Edit</a>/
-                  <a onClick={()=>this.deleteTodo(index)}>Delete</a>
-                </td>
-              </tr>
-            })
-            }
+          {this.props.list.map((val, index) => {
+            return <tbody><tr>Owner: {val.owner}</tr>
+            <tr><td>{index + 1}</td>
+              <td>{val.name}</td>
+              <td className="Edit">
+                <a>Edit</a>/
+                <a onClick={()=>this.deleteTodo(index)}>Delete</a>
+              </td></tr> 
           </tbody>
+              
+              })}
+          
         </table>
 
       </div>
