@@ -16,13 +16,19 @@ class TodoList extends Component {
     var unique = Array.from(new Set(owners));
     console.log(unique)
     var arr = [];
-    unique.forEach(ele=>{
+    unique.forEach((ele,ind)=>{
+      arr.push({owner:ele,values:[]});
       this.props.list.forEach(element => {
         if(ele === element.owner){
-          
+          arr[ind].values.push(element.name)
         }
       });
     });
+    console.log(arr)
+    this.setState({
+      data:arr
+    })
+    console.log(this.state)
   }
 
   deleteTodo(index){
@@ -40,18 +46,18 @@ class TodoList extends Component {
               <th>Action</th>
             </tr>
           </thead>
-          {this.props.list.map((val, index) => {
+          {this.state.data.map((val, index) => {
             return <tbody><tr>Owner: {val.owner}</tr>
-            <tr><td>{index + 1}</td>
-              <td>{val.name}</td>
-              <td className="Edit">
-                <a>Edit</a>/
-                <a onClick={()=>this.deleteTodo(index)}>Delete</a>
-              </td></tr> 
+            {val.values.map((ele,index)=>{
+               return <tr><td>{index + 1}</td>
+                 <td>{ele}</td>
+                 <td className="Edit">
+                   <a>Edit</a>/
+                   <a onClick={()=>this.deleteTodo(index)}>Delete</a>
+                 </td></tr>
+            })}
           </tbody>
-              
               })}
-          
         </table>
 
       </div>

@@ -50,7 +50,7 @@ class Content extends Component {
  
   handleSubmit(event){
     event.preventDefault();
-    if(this.duplicateCheck() && this.state.todoName && this.state.owner){
+    if( this.state.todoName && this.state.owner){
     // var ownerCheck = this.checkOwner();
     // if(ownerCheck.check){
     //   this.state.todoList[ownerCheck.index].name.push(this.state.todoName);
@@ -77,11 +77,9 @@ class Content extends Component {
   search(event){
     var queryResult=[];
     this.state.todoList.forEach(function(item){
-      item.name.forEach(ele=>{
-        if(ele.toLowerCase().indexOf(event.target.value)!==-1){
-           queryResult.push(item);
-        }
-      })
+      if(item.name.toLowerCase().indexOf(event.target.value)!==-1){
+          queryResult.push(item);
+      }
       
     });
     this.setState({
